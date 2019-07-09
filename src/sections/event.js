@@ -32,10 +32,10 @@ class MouseMove extends Component {
   }
 }
 
-function App() {
+function Event() {
   return (
-    <div className="App">
-      <h4>Appos</h4>
+    <div className="Event">
+      <h4>Eventos</h4>
       <ClickHi></ClickHi>
       <MouseMove></MouseMove>
     </div>
