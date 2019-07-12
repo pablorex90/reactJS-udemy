@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, PureComponent } from 'react';
 import PropTypes from 'prop-types';
 
 const ANIMALES_IMAGES = {
@@ -9,12 +9,41 @@ const ANIMALES_IMAGES = {
 
 const ANIMALS = Object.keys(ANIMALES_IMAGES);
 
-class AnimalImage extends Component {
+class AnimalImage extends PureComponent {
     state = { src: ANIMALES_IMAGES[this.props.animal] }
 
     componentWillReceiveProps(nextProps) {
-        console.log('componentWillReceiveProps: ', nextProps);
+        console.clear();
+        console.log('1. componentWillReceiveProps: ', nextProps);
         this.setState({ src: ANIMALES_IMAGES[nextProps.animal] });
+    }
+
+    // shouldComponentUpdate(nextProps){
+    //     //Este metodo siempre devuelve True o False, por defecto es True... lo cual hace que siempre renderice
+    //     console.log('2. shouldComponentUpdate: ', nextProps);
+    //     console.log('anterior: ', this.props.animal);
+    //     console.log('nuevo: ', nextProps.animal);
+    //     return this.props.animal !== nextProps.animal;
+    // }
+    shouldComponentUpdate(nextProps) {
+        console.log('2. shouldComponentUpdate: ', nextProps);
+        return this.props.animal !== nextProps.animal;
+    }
+
+    componentWillUpdate(nextProps, nextState) {
+        console.log('3. componentWillUpdate: ', nextProps, nextState);
+        const img = document.querySelector('img');
+        console.log('from img element', { alt: img.alt });
+        //web animations api
+        img.animate([{
+            filter: 'blur(0px)'
+        }, {
+            filter: 'blur(2px)'
+        }], {
+                duration: 500,
+                easing: 'ease'
+            }
+        )
     }
 
     render() {
@@ -47,7 +76,7 @@ class EjemploCicloActualizacion extends Component {
     _renderAnimalButton = (animal) => {
         return (
             <button
-                disabled={animal === this.state.animal}
+                // disabled={animal === this.state.animal}
                 key={animal}
                 onClick={() => this.setState({ animal })}
             >
