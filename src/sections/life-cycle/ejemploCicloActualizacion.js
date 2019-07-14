@@ -46,6 +46,22 @@ class AnimalImage extends PureComponent {
         )
     }
 
+    componentDidUpdate(prevProps, prevState) {
+        console.log('4. componentDidUpdate: ', prevProps, prevState);
+        const img = document.querySelector('img');
+        img.animate([{
+            filter: 'blur(2px)'
+        }, {
+            filter: 'blur(0px)'
+        }], {
+                duration: 1500,
+                easing: 'ease'
+            }
+        )
+        console.log('from img element', { alt: img.alt });
+        
+    }
+
     render() {
         console.log('AnimalImage render');
         return (
